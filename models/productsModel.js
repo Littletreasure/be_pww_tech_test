@@ -6,7 +6,7 @@ const fetchProducts = query => {
   let sortOrder = "asc";
   if (query.order === "desc") sortOrder = "desc";
   return connection
-  .select("products.*")
+  .select("*")
   .from("products")
   .groupBy("key")
   .orderBy(sortBy, sortOrder)
