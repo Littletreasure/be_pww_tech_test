@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha app.spec.js",
+    "test-utils": "mocha spec/utils.spec.js",
     "start": "node listen.js",
     "seed": "knex seed:run",
     "setup-dbs": "psql -f db/setup.sql",
@@ -19,7 +20,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "knex": "^0.21.12",
-    "pg": "^8.5.1"
+    "pg": "^8.5.1",
+    "supertest": "^6.0.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",

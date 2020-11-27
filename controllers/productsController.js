@@ -1,4 +1,4 @@
-const {fetchProducts} = require("../models/productsModel");
+const {fetchProducts, fetchProductsByType} = require("../models/productsModel");
 
 const getProducts = (req, res, next) => {
   fetchProducts(req.query)
@@ -8,4 +8,11 @@ const getProducts = (req, res, next) => {
   .catch(next);
 };
 
-module.exports = {getProducts};
+const getProductsByType = (req, res, next) => {
+  fetchProductsByType(req.query)
+  .then(products => {
+    res.status(200).send({products});
+  })
+  .catch(next)
+}
+module.exports = {getProducts, getProductsByType};
