@@ -6,12 +6,25 @@ const fetchProducts = query => {
   let sortOrder = "asc";
   if (query.order === "desc") sortOrder = "desc";
   return connection
-  .select("*")
+  .select("products.*")
   .from("products")
+  .groupBy("key")
   .orderBy(sortBy, sortOrder)
-  .then(products => { 
-    return products;
-  });
+.modify(sqlQuery => {
+      if (query.type) sqlQuery.where("products.type", query.type);
+
+    })
+  .then(products => {
+    if (query.type) {
+    return connection("products")
+            .select("*")
+            .where("type", query.type)
+            .orderBy(sortBy, sortOrder)
+            .then(products => {
+              return products;
+            })
+  } return products
+})
 };
 
 const fetchProductsByType = query => {
@@ -23,10 +36,22 @@ const fetchProductsByType = query => {
   return connection
   .select("products.*")
   .from("products")
-  .groupBy("products.type")
+  .groupBy("type")
   .orderBy(sortBy, sortOrder)
+  .modify(sqlQuery => {
+      if (query.type) sqlQuery.where("products.type", query.type);
+
+    })
   .then(products => {
-    return products;
+    return connection("products")
+            .select("*")
+            .where("type", query.type)
+            .then(products => {
+              
+              
+              return [];
   })
-}
+})
+};
+
 module.exports = {fetchProducts, fetchProductsByType};
